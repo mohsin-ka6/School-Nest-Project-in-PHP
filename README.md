@@ -261,7 +261,7 @@ After installation, you can use these demo credentials:
 - Add custom JavaScript in `assets/js/script.js`
 
 ### Database
-- Add new tables in `database/school_management.sql`
+- Add new tables in `database/freeschool.sql`
 - Update functions in `includes/functions.php`
 - Modify queries in respective modules
 
