@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student ID Card</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .id-card {
+            width: 350px;
+            height: 550px;
+            background-color: #f7a942;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            color: #4b260d;
+        }
+        .id-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.imgur.com/uR1jWqT.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        .id-card > * {
+            position: relative;
+            z-index: 2;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .circle {
+            width: 50px;
+            height: 50px;
+            background-color: #f3c98b;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .header-lines {
+            flex-grow: 1;
+            height: 20px;
+            background-color: #f3c98b;
+            border-radius: 5px;
+        }
+        .content-area {
+            display: flex;
+            margin-top: 20px;
+            flex-grow: 1;
+        }
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+            margin-right: 20px;
+        }
+        .info-line {
+            height: 30px;
+            background-color: #f3c98b;
+            border-radius: 5px;
+        }
+        .photo-container {
+            width: 150px;
+            height: 180px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 5px;
+        }
+        .photo-container img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 5px;
+        }
+        .codes-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .barcode {
+            width: 60%;
+            height: 70px;
+            background-image: url('https://bwipjs-api.metafloor.com/?bcid=code128&text=1234567890');
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+        }
+        .qr-code {
+            width: 70px;
+            height: 70px;
+            background-image: url('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Student+ID+Card+Info');
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+        }
+        .footer-line {
+            height: 20px;
+            background-color: #f3c98b;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="id-card">
+    <div class="header-top">
+        <div class="circle"></div>
+        <div class="header-lines"></div>
+    </div>
+    <div class="content-area">
+        <div class="info-section">
+            <div class="info-line" style="height: 30px;"></div>
+            <div class="info-line" style="height: 30px;"></div>
+            <div class="info-line" style="height: 30px;"></div>
+        </div>
+        <div class="photo-container">
+            <img src="https://i.imgur.com/8Q7p7uF.png" alt="Student Photo">
+        </div>
+    </div>
+    <div class="codes-section">
+        <div class="barcode"></div>
+        <div class="qr-code"></div>
+    </div>
+    <div class="footer-line"></div>
+</div>
+
+</body>
+</html>
+

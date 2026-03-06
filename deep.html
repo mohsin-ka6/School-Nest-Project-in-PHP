@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Agency - Flight Ticket Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .preview-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #1a73e8;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: #0d47a1;
+        }
+        
+        .btn-print {
+            background: #34a853;
+        }
+        
+        .btn-print:hover {
+            background: #2e8b47;
+        }
+        
+        .ticket {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .ticket-header {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .ticket-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .ticket-body {
+            padding: 20px;
+        }
+        
+        .ticket-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-group {
+            margin-bottom: 15px;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        
+        .flight-route {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 25px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .airport {
+            text-align: center;
+        }
+        
+        .airport-code {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a73e8;
+        }
+        
+        .airport-name {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .flight-duration {
+            text-align: center;
+            position: relative;
+        }
+        
+        .flight-duration:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ddd;
+            z-index: 1;
+        }
+        
+        .flight-duration span {
+            background: #f8f9fa;
+            padding: 0 10px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .barcode {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-family: 'Libre Barcode 128', cursive;
+            font-size: 40px;
+        }
+        
+        .ticket-footer {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px dashed #ddd;
+        }
+        
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .ticket, .ticket * {
+                visibility: visible;
+            }
+            .ticket {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            .ticket-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Travel Agency Flight Ticket System</h1>
+            <p class="subtitle">Enter passenger details and flight information to generate tickets</p>
+        </header>
+        
+        <div class="content">
+            <section class="form-section">
+                <h2>Passenger & Flight Details</h2>
+                
+                <form id="ticketForm">
+                    <div class="form-group">
+                        <label for="passengerName">Passenger Name</label>
+                        <input type="text" id="passengerName" placeholder="Full name as per passport" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="passportNumber">Passport Number</label>
+                            <input type="text" id="passportNumber" placeholder="e.g., A12345678" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nationality">Nationality</label>
+                            <input type="text" id="nationality" placeholder="e.g., Pakistani" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="airline">Airline</label>
+                        <select id="airline" required>
+                            <option value="">Select Airline</option>
+                            <!-- Airlines will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="flightNumber">Flight Number</label>
+                        <input type="text" id="flightNumber" placeholder="e.g., PK301" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departureAirport">Departure Airport</label>
+                            <select id="departureAirport" required>
+                                <option value="">Select Departure Airport</option>
+                                <!-- Airports will be populated by JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="arrivalAirport">Arrival Airport</label>
+                            <select id="arrivalAirport" required>
+                                <option value="">Select Arrival Airport</option>
+                                <!-- Airports will be populated by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departureDate">Departure Date</label>
+                            <input type="date" id="departureDate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="departureTime">Departure Time</label>
+                            <input type="time" id="departureTime" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="arrivalDate">Arrival Date</label>
+                            <input type="date" id="arrivalDate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="arrivalTime">Arrival Time</label>
+                            <input type="time" id="arrivalTime" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="seatNumber">Seat Number</label>
+                            <input type="text" id="seatNumber" placeholder="e.g., 14A" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class">Class</label>
+                            <select id="class" required>
+                                <option value="">Select Class</option>
+                                <option value="Economy">Economy</option>
+                                <option value="Premium Economy">Premium Economy</option>
+                                <option value="Business">Business</option>
+                                <option value="First">First</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bookingReference">Booking Reference</label>
+                        <input type="text" id="bookingReference" placeholder="e.g., ABC123" required>
+                    </div>
+                    
+                    <button type="button" class="btn" id="generateBtn">Generate Ticket</button>
+                </form>
+            </section>
+            
+            <section class="preview-section">
+                <h2>Ticket Preview</h2>
+                
+                <div class="ticket" id="ticketPreview">
+                    <div class="ticket-header">
+                        <h3>BOARDING PASS</h3>
+                        <p id="previewAirline">Airline Name</p>
+                    </div>
+                    
+                    <div class="ticket-body">
+                        <div class="ticket-info">
+                            <div class="info-group">
+                                <div class="info-label">PASSENGER NAME</div>
+                                <div class="info-value" id="previewPassengerName">John Doe</div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <div class="info-label">FLIGHT</div>
+                                <div class="info-value" id="previewFlightNumber">PK301</div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <div class="info-label">FROM</div>
+                                <div class="info-value" id="previewDepartureAirport">KHI</div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <div class="info-label">TO</div>
+                                <div class="info-value" id="previewArrivalAirport">ISB</div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <div class="info-label">DATE</div>
+                                <div class="info-value" id="previewDepartureDate">15 Oct 2023</div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <div class="info-label">TIME</div>
+                                <div class="info-value" id="previewDepartureTime">10:30 AM</div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <div class="info-label">SEAT</div>
+                                <div class="info-value" id="previewSeatNumber">14A</div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <div class="info-label">CLASS</div>
+                                <div class="info-value" id="previewClass">Economy</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flight-route">
+                            <div class="airport">
+                                <div class="airport-code" id="previewDepartureCode">KHI</div>
+                                <div class="airport-name" id="previewDepartureCity">Karachi</div>
+                            </div>
+                            
+                            <div class="flight-duration">
+                                <span id="previewDuration">2h 15m</span>
+                            </div>
+                            
+                            <div class="airport">
+                                <div class="airport-code" id="previewArrivalCode">ISB</div>
+                                <div class="airport-name" id="previewArrivalCity">Islamabad</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ticket-info">
+                            <div class="info-group">
+                                <div class="info-label">PASSPORT</div>
+                                <div class="info-value" id="previewPassport">A12345678</div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <div class="info-label">NATIONALITY</div>
+                                <div class="info-value" id="previewNationality">Pakistani</div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <div class="info-label">BOOKING REF</div>
+                                <div class="info-value" id="previewBookingRef">ABC123</div>
+                            </div>
+                        </div>
+                        
+                        <div class="barcode">
+                            <div id="previewBarcode">PK301KHIISB14A</div>
+                        </div>
+                    </div>
+                    
+                    <div class="ticket-footer">
+                        <p>Please arrive at the airport at least 2 hours before departure</p>
+                        <p>Have a pleasant flight!</p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-print no-print" id="printBtn" disabled>Print Ticket</button>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateBtn = document.getElementById('generateBtn');
+            const printBtn = document.getElementById('printBtn');
+            const form = document.getElementById('ticketForm');
+            
+            // Set default dates to today and tomorrow
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            document.getElementById('departureDate').valueAsDate = today;
+            document.getElementById('arrivalDate').valueAsDate = tomorrow;
+            
+            // Airlines data - including Pakistani airlines
+            const airlines = [
+                // Pakistani Airlines
+                { code: "PK", name: "Pakistan International Airlines (PIA)" },
+                { code: "PA", name: "Airblue" },
+                { code: "ER", name: "SereneAir" },
+                { code: "9P", name: "Air Sial" },
+                { code: "R4", name: "Air University" },
+                
+                // International Airlines
+                { code: "AA", name: "American Airlines" },
+                { code: "DL", name: "Delta Air Lines" },
+                { code: "UA", name: "United Airlines" },
+                { code: "LH", name: "Lufthansa" },
+                { code: "BA", name: "British Airways" },
+                { code: "AF", name: "Air France" },
+                { code: "EK", name: "Emirates" },
+                { code: "QR", name: "Qatar Airways" },
+                { code: "SQ", name: "Singapore Airlines" },
+                { code: "CX", name: "Cathay Pacific" },
+                { code: "JL", name: "Japan Airlines" },
+                { code: "NH", name: "All Nippon Airways" },
+                { code: "KE", name: "Korean Air" },
+                { code: "TG", name: "Thai Airways" },
+                { code: "EY", name: "Etihad Airways" },
+                { code: "TK", name: "Turkish Airlines" },
+                { code: "KL", name: "KLM Royal Dutch Airlines" },
+                { code: "LX", name: "Swiss International Air Lines" },
+                { code: "AC", name: "Air Canada" },
+                { code: "QF", name: "Qantas" },
+                { code: "AZ", name: "Alitalia" },
+                { code: "IB", name: "Iberia" },
+                { code: "AY", name: "Finnair" },
+                { code: "SK", name: "SAS Scandinavian Airlines" },
+                { code: "OS", name: "Austrian Airlines" },
+                { code: "LO", name: "LOT Polish Airlines" },
+                { code: "SU", name: "Aeroflot" },
+                { code: "SV", name: "Saudia" },
+                { code: "LY", name: "El Al Israel Airlines" },
+                { code: "AI", name: "Air India" },
+                { code: "6E", name: "IndiGo" },
+                { code: "SG", name: "SpiceJet" },
+                { code: "UK", name: "Vistara" },
+                { code: "G8", name: "Go First" },
+                { code: "I5", name: "AirAsia India" },
+                { code: "9W", name: "Jet Airways" }
+            ];
+            
+            // Airports data - including Pakistani airports
+            const airports = [
+                // Pakistani Airports
+                { code: "KHI", name: "Jinnah International Airport", city: "Karachi" },
+                { code: "LHE", name: "Allama Iqbal International Airport", city: "Lahore" },
+                { code: "ISB", name: "Islamabad International Airport", city: "Islamabad" },
+                { code: "PEW", name: "Bacha Khan International Airport", city: "Peshawar" },
+                { code: "UET", name: "Quetta International Airport", city: "Quetta" },
+                { code: "MUX", name: "Multan International Airport", city: "Multan" },
+                { code: "RYK", name: "Shaikh Zayed International Airport", city: "Rahim Yar Khan" },
+                { code: "GWD", name: "Gwadar International Airport", city: "Gwadar" },
+                { code: "SKZ", name: "Sukkur Airport", city: "Sukkur" },
+                { code: "BDN", name: "Talhar Airport", city: "Badin" },
+                { code: "BHV", name: "Bahawalpur Airport", city: "Bahawalpur" },
+                { code: "CJL", name: "Chitral Airport", city: "Chitral" },
+                { code: "DBA", name: "Dalbandin Airport", city: "Dalbandin" },
+                { code: "DEA", name: "Dera Ghazi Khan Airport", city: "Dera Ghazi Khan" },
+                { code: "DSK", name: "Dera Ismail Khan Airport", city: "Dera Ismail Khan" },
+                { code: "GIL", name: "Gilgit Airport", city: "Gilgit" },
+                { code: "SKT", name: "Sialkot International Airport", city: "Sialkot" },
+                
+                // International Airports
+                { code: "DEL", name: "Indira Gandhi International Airport", city: "New Delhi" },
+                { code: "BOM", name: "Chhatrapati Shivaji Maharaj International Airport", city: "Mumbai" },
+                { code: "MAA", name: "Chennai International Airport", city: "Chennai" },
+                { code: "BLR", name: "Kempegowda International Airport", city: "Bengaluru" },
+                { code: "HYD", name: "Rajiv Gandhi International Airport", city: "Hyderabad" },
+                { code: "CCU", name: "Netaji Subhas Chandra Bose International Airport", city: "Kolkata" },
+                { code: "AMD", name: "Sardar Vallabhbhai Patel International Airport", city: "Ahmedabad" },
+                { code: "GOI", name: "Dabolim Airport", city: "Goa" },
+                { code: "JFK", name: "John F. Kennedy International Airport", city: "New York" },
+                { code: "LAX", name: "Los Angeles International Airport", city: "Los Angeles" },
+                { code: "ORD", name: "O'Hare International Airport", city: "Chicago" },
+                { code: "DFW", name: "Dallas/Fort Worth International Airport", city: "Dallas" },
+                { code: "DEN", name: "Denver International Airport", city: "Denver" },
+                { code: "SFO", name: "San Francisco International Airport", city: "San Francisco" },
+                { code: "SEA", name: "Seattle-Tacoma International Airport", city: "Seattle" },
+                { code: "ATL", name: "Hartsfield-Jackson Atlanta International Airport", city: "Atlanta" },
+                { code: "MIA", name: "Miami International Airport", city: "Miami" },
+                { code: "LHR", name: "Heathrow Airport", city: "London" },
+                { code: "CDG", name: "Charles de Gaulle Airport", city: "Paris" },
+                { code: "FRA", name: "Frankfurt Airport", city: "Frankfurt" },
+                { code: "AMS", name: "Amsterdam Airport Schiphol", city: "Amsterdam" },
+                { code: "DXB", name: "Dubai International Airport", city: "Dubai" },
+                { code: "HKG", name: "Hong Kong International Airport", city: "Hong Kong" },
+                { code: "SIN", name: "Singapore Changi Airport", city: "Singapore" },
+                { code: "NRT", name: "Narita International Airport", city: "Tokyo" },
+                { code: "SYD", name: "Sydney Kingsford Smith Airport", city: "Sydney" },
+                { code: "MEL", name: "Melbourne Airport", city: "Melbourne" },
+                { code: "YYZ", name: "Toronto Pearson International Airport", city: "Toronto" },
+                { code: "YVR", name: "Vancouver International Airport", city: "Vancouver" },
+                { code: "GRU", name: "São Paulo-Guarulhos International Airport", city: "São Paulo" },
+                { code: "EZE", name: "Ministro Pistarini International Airport", city: "Buenos Aires" },
+                { code: "DOH", name: "Hamad International Airport", city: "Doha" },
+                { code: "ICN", name: "Incheon International Airport", city: "Seoul" },
+                { code: "BKK", name: "Suvarnabhumi Airport", city: "Bangkok" },
+                { code: "KUL", name: "Kuala Lumpur International Airport", city: "Kuala Lumpur" },
+                { code: "MNL", name: "Ninoy Aquino International Airport", city: "Manila" },
+                { code: "JNB", name: "O.R. Tambo International Airport", city: "Johannesburg" },
+                { code: "CPT", name: "Cape Town International Airport", city: "Cape Town" },
+                { code: "CAI", name: "Cairo International Airport", city: "Cairo" },
+                { code: "RUH", name: "King Khalid International Airport", city: "Riyadh" },
+                { code: "AUH", name: "Abu Dhabi International Airport", city: "Abu Dhabi" },
+                { code: "IST", name: "Istanbul Airport", city: "Istanbul" },
+                { code: "MAD", name: "Adolfo Suárez Madrid–Barajas Airport", city: "Madrid" },
+                { code: "BCN", name: "Barcelona–El Prat Airport", city: "Barcelona" },
+                { code: "FCO", name: "Leonardo da Vinci–Fiumicino Airport", city: "Rome" },
+                { code: "MUC", name: "Munich Airport", city: "Munich" },
+                { code: "ZRH", name: "Zurich Airport", city: "Zurich" },
+                { code: "VIE", name: "Vienna International Airport", city: "Vienna" },
+                { code: "BRU", name: "Brussels Airport", city: "Brussels" },
+                { code: "ARN", name: "Stockholm Arlanda Airport", city: "Stockholm" },
+                { code: "OSL", name: "Oslo Airport, Gardermoen", city: "Oslo" },
+                { code: "HEL", name: "Helsinki Airport", city: "Helsinki" },
+                { code: "CPH", name: "Copenhagen Airport", city: "Copenhagen" },
+                { code: "DUB", name: "Dublin Airport", city: "Dublin" },
+                { code: "MAN", name: "Manchester Airport", city: "Manchester" },
+                { code: "LGW", name: "Gatwick Airport", city: "London" },
+                { code: "EDI", name: "Edinburgh Airport", city: "Edinburgh" },
+                { code: "GLA", name: "Glasgow Airport", city: "Glasgow" },
+                { code: "BHX", name: "Birmingham Airport", city: "Birmingham" }
+            ];
+            
+            // Populate airlines dropdown
+            const airlineSelect = document.getElementById('airline');
+            airlines.forEach(airline => {
+                const option = document.createElement('option');
+                option.value = airline.name;
+                option.textContent = `${airline.name} (${airline.code})`;
+                airlineSelect.appendChild(option);
+            });
+            
+            // Populate airports dropdowns
+            const departureSelect = document.getElementById('departureAirport');
+            const arrivalSelect = document.getElementById('arrivalAirport');
+            
+            airports.forEach(airport => {
+                // For departure
+                const depOption = document.createElement('option');
+                depOption.value = airport.code;
+                depOption.textContent = `${airport.city} (${airport.code}) - ${airport.name}`;
+                depOption.setAttribute('data-city', airport.city);
+                departureSelect.appendChild(depOption);
+                
+                // For arrival
+                const arrOption = document.createElement('option');
+                arrOption.value = airport.code;
+                arrOption.textContent = `${airport.city} (${airport.code}) - ${airport.name}`;
+                arrOption.setAttribute('data-city', airport.city);
+                arrivalSelect.appendChild(arrOption);
+            });
+            
+            generateBtn.addEventListener('click', function() {
+                // Get form values
+                const passengerName = document.getElementById('passengerName').value;
+                const passportNumber = document.getElementById('passportNumber').value;
+                const nationality = document.getElementById('nationality').value;
+                const flightNumber = document.getElementById('flightNumber').value;
+                const departureAirport = document.getElementById('departureAirport').value;
+                const arrivalAirport = document.getElementById('arrivalAirport').value;
+                const departureDate = document.getElementById('departureDate').value;
+                const departureTime = document.getElementById('departureTime').value;
+                const arrivalDate = document.getElementById('arrivalDate').value;
+                const arrivalTime = document.getElementById('arrivalTime').value;
+                const seatNumber = document.getElementById('seatNumber').value;
+                const flightClass = document.getElementById('class').value;
+                const airline = document.getElementById('airline').value;
+                const bookingReference = document.getElementById('bookingReference').value;
+                
+                // Get selected airport details
+                const departureSelect = document.getElementById('departureAirport');
+                const selectedDepartureOption = departureSelect.options[departureSelect.selectedIndex];
+                const departureCity = selectedDepartureOption.getAttribute('data-city');
+                
+                const arrivalSelect = document.getElementById('arrivalAirport');
+                const selectedArrivalOption = arrivalSelect.options[arrivalSelect.selectedIndex];
+                const arrivalCity = selectedArrivalOption.getAttribute('data-city');
+                
+                // Validate form
+                if (!passengerName || !passportNumber || !nationality || !flightNumber || 
+                    !departureAirport || !arrivalAirport || !departureDate || !departureTime || 
+                    !arrivalDate || !arrivalTime || !seatNumber || !flightClass || !airline || !bookingReference) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+                
+                // Update preview
+                document.getElementById('previewPassengerName').textContent = passengerName;
+                document.getElementById('previewFlightNumber').textContent = flightNumber;
+                document.getElementById('previewDepartureAirport').textContent = departureAirport;
+                document.getElementById('previewArrivalAirport').textContent = arrivalAirport;
+                
+                // Format date for display
+                const depDate = new Date(departureDate);
+                const formattedDepDate = depDate.toLocaleDateString('en-US', { 
+                    day: 'numeric', 
+                    month: 'short', 
+                    year: 'numeric' 
+                });
+                document.getElementById('previewDepartureDate').textContent = formattedDepDate;
+                
+                // Format time for display
+                const depTime = new Date(`1970-01-01T${departureTime}`);
+                const formattedDepTime = depTime.toLocaleTimeString('en-US', { 
+                    hour: 'numeric', 
+                    minute: '2-digit',
+                    hour12: true 
+                });
+                document.getElementById('previewDepartureTime').textContent = formattedDepTime;
+                
+                document.getElementById('previewSeatNumber').textContent = seatNumber;
+                document.getElementById('previewClass').textContent = flightClass;
+                document.getElementById('previewAirline').textContent = airline;
+                document.getElementById('previewPassport').textContent = passportNumber;
+                document.getElementById('previewNationality').textContent = nationality;
+                document.getElementById('previewBookingRef').textContent = bookingReference;
+                
+                // Update airport codes and names
+                document.getElementById('previewDepartureCode').textContent = departureAirport;
+                document.getElementById('previewArrivalCode').textContent = arrivalAirport;
+                document.getElementById('previewDepartureCity').textContent = departureCity;
+                document.getElementById('previewArrivalCity').textContent = arrivalCity;
+                
+                // Generate barcode-like text
+                document.getElementById('previewBarcode').textContent = 
+                    `${flightNumber}${departureAirport}${arrivalAirport}${seatNumber}`;
+                
+                // Calculate flight duration
+                const depDateTime = new Date(`${departureDate}T${departureTime}`);
+                const arrDateTime = new Date(`${arrivalDate}T${arrivalTime}`);
+                const durationMs = arrDateTime - depDateTime;
+                const durationHours = Math.floor(durationMs / (1000 * 60 * 60));
+                const durationMinutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
+                
+                document.getElementById('previewDuration').textContent = 
+                    `${durationHours}h ${durationMinutes}m`;
+                
+                // Enable print button
+                printBtn.disabled = false;
+            });
+            
+            printBtn.addEventListener('click', function() {
+                window.print();
+            });
+        });
+    </script>
+</body>
+</html>
