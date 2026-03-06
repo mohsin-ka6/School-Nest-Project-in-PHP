@@ -175,7 +175,7 @@ cd ai_school
 ### Step 2: Database Setup
 1. Create a MySQL database:
 ```sql
-CREATE DATABASE school_management;
+CREATE DATABASE myschool;
 ```
 
 2. Import the database schema:
